@@ -10,11 +10,12 @@ const ProductDetails = ({ isAdmin }) => {
 
   useEffect(() => {
     const fetchProduct = async () => {
-      const { data, error } = await supabase.from('products')
-        .select('*')
-        .eq('id', id)
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("id", id)
         .single();
-      if (error) navigate('/');
+      if (error) navigate("/");
       else setProduct(data);
     };
     fetchProduct();
@@ -23,39 +24,45 @@ const ProductDetails = ({ isAdmin }) => {
   const handleDeleteProduct = async () => {
     try {
       if (product.image) {
-        console.log('URL completa de la imagen:', product.image);
-        
+        console.log("URL completa de la imagen:", product.image);
+
         // Verificar si la URL contiene el patrón esperado
-        if (product.image.includes('products/images/')) {
-          // Extraer el nombre del archivo 
-          const fileName = product.image.split('/').pop();
+        if (product.image.includes("products/images/")) {
+          // Extraer el nombre del archivo
+          const fileName = product.image.split("/").pop();
           // La ruta dentro del bucket debería ser 'images/nombredelarchivo'
           const filePath = `images/${fileName}`;
-          
-          console.log('Ruta para eliminar:', filePath);
-          
+
+          console.log("Ruta para eliminar:", filePath);
+
           const { error: deleteImageError } = await supabase.storage
-            .from('products')
+            .from("products")
             .remove([filePath]);
-          
+
           if (deleteImageError) {
-            console.error('Error eliminando la imagen del bucket: ', deleteImageError);
+            console.error(
+              "Error eliminando la imagen del bucket: ",
+              deleteImageError
+            );
             return;
           }
         } else {
-          console.error('Formato de URL de imagen no reconocido:', product.image);
+          console.error(
+            "Formato de URL de imagen no reconocido:",
+            product.image
+          );
         }
       }
 
       // Una vez eliminada la imagen (o si no hay imagen), eliminar el producto
-      const { error } = await supabase.from('products').delete().eq('id', id);
+      const { error } = await supabase.from("products").delete().eq("id", id);
       if (error) {
         console.error("Error al eliminar el producto", error);
         return;
       }
-      
+
       // Si todo salió bien, redirigir a la página principal
-      navigate('/');
+      navigate("/");
     } catch (error) {
       console.error("Error al eliminar el producto o la imagen", error);
     }
@@ -68,9 +75,9 @@ const ProductDetails = ({ isAdmin }) => {
           <div className="md:w-1/2">
             {product.image ? (
               <div className="relative h-96 md:h-full">
-                <img 
-                  src={product.image} 
-                  alt={product.title} 
+                <img
+                  src={product.image}
+                  alt={product.title}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -83,20 +90,27 @@ const ProductDetails = ({ isAdmin }) => {
           <div className="p-8 md:w-1/2">
             <div className="flex justify-between items-start">
               <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
-              <button 
-                onClick={() => navigate('/')}
+              <button
+                onClick={() => navigate("/")}
                 className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
               >
                 Volver
               </button>
-            </div>            
+            </div>
             <div className="mb-8">
               <h2 className="text-xl font-semibold mb-2">Descripción</h2>
               <p className="text-gray-700">{product.description}</p>
             </div>
             <div className="flex flex-col space-y-2">
               <button
-                onClick={() => alert(`Pedido del producto: ${product.title}`)}
+                onClick={() => {
+                  const message = `Pedido del producto: ${product.title}\nDescripción: ${product.description}`;
+                  const phoneNumber = "1234567890"; // Número de teléfono al que enviar el mensaje, incluye el código de país.
+                  const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+                    message
+                  )}`;
+                  window.open(url, "_blank");
+                }}
                 className="w-full px-6 py-3 rounded bg-blue-500 text-white hover:bg-blue-600 transition"
               >
                 Hacer Pedido
@@ -114,7 +128,9 @@ const ProductDetails = ({ isAdmin }) => {
         </div>
       </div>
     </div>
-  ) : <p className="text-center text-lg text-gray-600">Cargando...</p>;
+  ) : (
+    <p className="text-center text-lg text-gray-600">Cargando...</p>
+  );
 };
 
 export default ProductDetails;
