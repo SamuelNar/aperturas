@@ -105,7 +105,7 @@ const ProductDetails = ({ isAdmin }) => {
           <button
             onClick={() => {
               const message = `Pedido del producto: ${product.title}\nDescripción: ${product.description}`;
-              const phoneNumber = "1234567890"; // Número de teléfono al que enviar el mensaje, incluye el código de país.
+              const phoneNumber = "3584024059"; // Número de teléfono al que enviar el mensaje, incluye el código de país.
               const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
                 message
               )}`;
