@@ -69,12 +69,12 @@ const ProductDetails = ({ isAdmin }) => {
   };
 
   return product ? (
-    <div className="container mx-auto px-2 py-2">
-    <div className="max-w-6xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
+    <div className="container mx-auto px-8 py-8 min-h-screen flex items-center">
+    <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden w-full">
       <div className="flex flex-col md:flex-row">
         <div className="w-full md:w-3/5">
           {product.image ? (
-            <div className="relative h-96 sm:h-112 md:h-128">
+            <div className="relative h-128 sm:h-140 md:h-160">
               <img
                 src={product.image}
                 alt={product.title}
@@ -82,26 +82,26 @@ const ProductDetails = ({ isAdmin }) => {
               />
             </div>
           ) : (
-            <div className="h-96 sm:h-112 md:h-128 bg-gray-200 flex items-center justify-center">
-              <p className="text-gray-500 text-xl">Sin imagen</p>
+            <div className="h-128 sm:h-140 md:h-160 bg-gray-200 flex items-center justify-center">
+              <p className="text-gray-500 text-2xl">Sin imagen</p>
             </div>
           )}
         </div>
-        <div className="p-6 sm:p-8 md:p-10 w-full md:w-2/5">
-          <div className="flex justify-between items-start mb-6">
+        <div className="p-10 sm:p-12 md:p-16 w-full md:w-2/5">
+          <div className="flex justify-between items-start mb-10">
             <h1 className="text-3xl sm:text-4xl font-bold">{product.title}</h1>
             <button
               onClick={() => navigate("/")}
-              className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 text-lg"
+              className="px-6 py-3 bg-gray-200 rounded-md hover:bg-gray-300 text-lg"
             >
               Volver
             </button>
           </div>
-          <div className="mb-8">
-            <h2 className="text-2xl font-semibold mb-3">Descripción</h2>
+          <div className="mb-10">
+            <h2 className="text-2xl font-semibold mb-4">Descripción</h2>
             <p className="text-gray-700 text-lg">{product.description}</p>
           </div>
-          <div className="flex flex-col space-y-4">
+          <div className="flex flex-col space-y-6">
             <button
               onClick={() => {
                 const message = `Pedido del producto: ${product.title}\nDescripción: ${product.description}`;
@@ -111,14 +111,14 @@ const ProductDetails = ({ isAdmin }) => {
                 )}`;
                 window.open(url, "_blank");
               }}
-              className="w-full px-8 py-4 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition text-xl font-medium"
+              className="w-full px-10 py-5 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition text-lg font-medium"
             >
               Hacer Pedido
             </button>
             {isAdmin && (
               <button
                 onClick={handleDeleteProduct}
-                className="w-full px-8 py-4 rounded-lg bg-red-500 text-white hover:bg-red-600 transition text-xl font-medium"
+                className="w-full px-10 py-5 rounded-lg bg-red-500 text-white hover:bg-red-600 transition text-lg font-medium"
               >
                 Eliminar Producto
               </button>
@@ -128,6 +128,8 @@ const ProductDetails = ({ isAdmin }) => {
       </div>
     </div>
   </div>
+  
+
   ) : (
     <p className="text-center text-lg text-gray-600">Cargando...</p>
   );
