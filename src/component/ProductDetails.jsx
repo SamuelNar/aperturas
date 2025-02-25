@@ -72,7 +72,7 @@ const ProductDetails = ({ isAdmin }) => {
     <div className="container mx-auto px-4 py-8">
   <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg overflow-hidden">
     <div className="md:flex">
-      <div className="md:w-1/2">
+      <div className="md:w-4/5">
         {product.image ? (
           <div className="relative h-235 md:h-235"> {/* Aumenté la altura */}
             <img
