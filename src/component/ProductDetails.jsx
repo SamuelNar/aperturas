@@ -101,6 +101,9 @@ const ProductDetails = ({ isAdmin }) => {
             <h2 className="text-2xl font-semibold mb-4">Descripción</h2>
             <p className="text-gray-700 text-lg">{product.description}</p>
           </div>
+          {product.prices !== undefined && (
+                <p className="text-lg font-semibold text-gray-700 mb-2">${product.prices}</p>
+            )}
           <div className="flex flex-col space-y-6">
             <button
               onClick={() => {

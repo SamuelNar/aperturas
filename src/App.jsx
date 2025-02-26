@@ -5,6 +5,7 @@ import ProductList from './component/ProductList';
 import LoginPage from './component/LoginPage';
 import AddProductForm from './component/AddProductForm';
 import ProductDetails from './component/ProductDetails';
+import EditProductForm from './component/EditProductForm';
 
 export default function App() {
   const [products, setProducts] = useState([]);
@@ -46,6 +47,7 @@ export default function App() {
       <Route path="/" element={<ProductList products={products} isAdmin={isAdmin} onLogout={handleLogout} />} />
       <Route path="/login" element={isAdmin ? <Navigate to="/" /> : <LoginPage setIsAdmin={setIsAdmin} />} />
       <Route path="/add-product" element={isAdmin ? <AddProductForm fetchProducts={fetchProducts} /> : <Navigate to="/login" />} />
+      <Route path="/edit-product/:id" element={<EditProductForm/>} />
       <Route path="/product/:id" element={<ProductDetails isAdmin={isAdmin} deleteProduct={deleteProduct} />} />
     </Routes>
   );

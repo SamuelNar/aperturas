@@ -6,7 +6,8 @@ import { supabase } from "../utils/supabaseClient";
 const AddProductForm = ({fetchProducts}) => {
   const [newProduct, setNewProduct] = useState({
     title: "",
-    description: "",    
+    description: "",
+    prices: "",
     image: null
   });
   const navigate = useNavigate();
@@ -38,7 +39,8 @@ const AddProductForm = ({fetchProducts}) => {
       .insert([
         {
           title: newProduct.title,
-          description: newProduct.description,          
+          description: newProduct.description,
+          prices: newProduct.prices || null,          
           image: imageUrl
         }
       ]);
@@ -46,7 +48,7 @@ const AddProductForm = ({fetchProducts}) => {
     if (insertError) {
       console.error("Error adding product: ", insertError);
     } else {
-      setNewProduct({ title: "", description: "",image: null });      
+      setNewProduct({ title: "", description: "", prices:"", image: null });      
       await fetchProducts();
       navigate('/');
     }
@@ -75,6 +77,15 @@ const AddProductForm = ({fetchProducts}) => {
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="4"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              type="number"
+              placeholder="Precio (opcional)"              
+              onChange={(e) => setNewProduct({ ...newProduct, prices: e.target.value })}
+              value={newProduct.prices}              
+              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>         
           <div className="mb-6">
