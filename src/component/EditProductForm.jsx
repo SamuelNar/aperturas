@@ -7,7 +7,7 @@ import { supabase } from "../utils/supabaseClient";
 const EditProductForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-    const [product, setProduct] = useState({ title: "", description: "",prices: "" , image: "",});
+    const [product, setProduct] = useState({ title: "", description: "", prices: "", image: "" });
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState("");
     const [imageFile, setImageFile] = useState(null);
@@ -27,7 +27,7 @@ const EditProductForm = () => {
                 setProduct({ 
                     title: data.title, 
                     description: data.description, 
-                    price: data.price || "" 
+                    prices: data.prices ?? ""
                 });
                 setImageUrl(data.image); // Guardamos la imagen actual
             }
@@ -38,7 +38,12 @@ const EditProductForm = () => {
     }, [id]);
 
     const handleChange = (e) => {
-        setProduct({ ...product, [e.target.name]: e.target.value });
+        const { name, value } = e.target;
+    
+        setProduct({
+            ...product,
+            [name]: name === "prices" ? (value === "" ? "" : parseFloat(value)) : value, // Convierte `prices` a número
+        });
     };
    
     const handleSubmit = async (e) => {
@@ -125,7 +130,8 @@ const EditProductForm = () => {
                     <label className="block mt-4 mb-2 font-semibold">Precio (Opcional):</label>
                     <input
                         type="number"
-                        name="price"
+                        name="prices"
+                        step="0.01"
                         value={product.prices}
                         onChange={handleChange}
                         className="w-full px-3 py-2 border rounded"
@@ -137,6 +143,12 @@ const EditProductForm = () => {
                         disabled={loading}
                     >
                         {loading ? "Guardando..." : "Guardar Cambios"}
+                    </button>
+                    <button
+                        onClick={() => navigate("/")}
+                        className="w-full px-4 py-2 mt-4 bg-gray-500 text-white rounded  transition"
+                    >
+                            Cancelar
                     </button>
                 </form>
             )}
